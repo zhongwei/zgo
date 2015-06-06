@@ -1,0 +1,2 @@
+# zgo
+Learning Go
