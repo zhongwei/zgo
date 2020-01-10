@@ -13,6 +13,7 @@ var (
 	cfgFile string
 	port    string
 	dbURL   string
+	amqpURL string
 )
 
 // rootCmd represents the base command when called without any subcommands
@@ -77,8 +78,13 @@ func initConfig() {
 		if len(port) < 1 {
 			port = viper.GetString("PORT")
 		}
+
 		if len(dbURL) < 1 {
 			dbURL = viper.GetString("DB_URL")
+		}
+
+		if len(amqpURL) < 1 {
+			amqpURL = viper.GetString("AMQP_URL")
 		}
 	}
 }

@@ -19,12 +19,16 @@ docker container run --name phpmyadmin --restart always -p 8033:80 -e PMA_ARBITR
 
 ```shell
 go run main.go http -p :9090 -d "zhongwei:zhongwei@/demo?charset=utf8&parseTime=True&loc=Local"
+go run main.go rabbit -q amqp://admin:zhongwei@localhost:5672
 ```
 
 ## Run zgo with config file
 
 ```shell
 go run main.go --config .zgo.yaml http
+go run main.go --config .zgo.yaml mongo
+go run main.go --config .zgo.yaml rabbit
+go run main.go --config .zgo.yaml redis
 ```
 
 ## Test zgo
@@ -57,6 +61,12 @@ docker container run --name redis-commander --restart always -p 8063:8081 --env 
 ```shell
 docker container run --name mongo --restart always -p 27017:27017 -v ~/data/mongo:/data/db -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=zhongwei -d mongo
 docker container run --name mongo-express --restart always -p 8081:8081 -e ME_CONFIG_MONGODB_SERVER=10.105.201.248 -e ME_CONFIG_MONGODB_ADMINUSERNAME=admin -e ME_CONFIG_MONGODB_ADMINPASSWORD=zhongwei -d mongo-express
+```
+
+## Create rabbitmq container
+
+```shell
+docker container run --name rabbitmq --restart always --hostname rabbitmq -p 15672:15672 -p 5672:5672 -e RABBITMQ_DEFAULT_USER=admin -e RABBITMQ_DEFAULT_PASS=zhongwei -d rabbitmq:management-alpine
 ```
 
 ## Generate code framework

@@ -1,5 +1,10 @@
 {
     "cSpell.words": [
+        "ADMINPASSWORD",
+        "ADMINUSERNAME",
+        "INITDB",
+        "RABBITMQ",
+        "amqp",
         "bson",
         "gorm",
         "grpc",
