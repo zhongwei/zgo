@@ -18,25 +18,25 @@ docker container run --name phpmyadmin --restart always -p 8033:80 -e PMA_ARBITR
 ## Run zgo
 
 ```shell
-PORT=8080 DB_URL="zhongwei:zhongwei@/demo?charset=utf8&parseTime=True&loc=Local" ./zgo
+./zgo http -p 9090 -d "zhongwei:zhongwei@/demo?charset=utf8&parseTime=True&loc=Local"
 ```
 
 ## Test zgo
 
 ```shell
 # add user
-curl -X POST -i http://localhost:8080/users --data '{"name":"zhang","age":"10"}'
-curl -X POST -i http://localhost:8080/users --data '{"name":"li","age":"20"}'
-curl -X POST -i http://localhost:8080/users --data '{"name":"wang","age":"30"}'
+curl -X POST -i http://localhost:9090/users --data '{"name":"zhang","age":"10"}'
+curl -X POST -i http://localhost:9090/users --data '{"name":"li","age":"20"}'
+curl -X POST -i http://localhost:9090/users --data '{"name":"wang","age":"30"}'
 
 # query users
-curl -X GET -i http://localhost:8080/users
+curl -X GET -i http://localhost:9090/users
 
 # modify user
-curl -X PUT -i http://localhost:8080/users/1 --data ' {"name": "zhang", "age": "8"}'
+curl -X PUT -i http://localhost:9090/users/1 --data ' {"name": "zhang", "age": "8"}'
 
 # delete user
-curl -X DELETE -i http://localhost:8080/users/1
+curl -X DELETE -i http://localhost:9090/users/1
 ```
 
 ## Create redis container and web manage tools

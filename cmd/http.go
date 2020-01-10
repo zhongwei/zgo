@@ -2,9 +2,38 @@ package cmd
 
 import (
 	"fmt"
+	"zgo/api"
+	"zgo/model"
+	"zgo/repo"
+	"zgo/service"
 
+	"github.com/gin-gonic/gin"
+	"github.com/jinzhu/gorm"
 	"github.com/spf13/cobra"
 )
+
+var (
+	port   string
+	db_url string
+)
+
+func initDB() *gorm.DB {
+	db, err := gorm.Open("mysql", db_url)
+	if err != nil {
+		panic(err)
+	}
+
+	db.AutoMigrate(&model.User{})
+
+	return db
+}
+
+func InitUserAPI(db *gorm.DB) api.UserAPI {
+	userRepo := repo.CreateUserRepo(db)
+	userService := service.CreateUserService(userRepo)
+	userAPI := api.CreateUserAPI(userService)
+	return userAPI
+}
 
 // httpCmd represents the http command
 var httpCmd = &cobra.Command{
@@ -18,19 +47,29 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("http called")
+
+		db := initDB()
+		defer db.Close()
+
+		userAPI := InitUserAPI(db)
+
+		r := gin.Default()
+
+		r.GET("/users", userAPI.FindAll)
+		r.GET("/users/:id", userAPI.FindByID)
+		r.POST("/users", userAPI.Create)
+		r.PUT("/users/:id", userAPI.Update)
+		r.DELETE("/users/:id", userAPI.Delete)
+
+		err := r.Run(":" + port)
+		if err != nil {
+			panic(err)
+		}
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(httpCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// httpCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// httpCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	httpCmd.Flags().StringVarP(&port, "port", "p", "", "port of the http server.")
+	httpCmd.Flags().StringVarP(&db_url, "database", "d", "", "URL of SQL Server.")
 }
