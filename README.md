@@ -52,6 +52,28 @@ docker container run --name redis --restart always -p 6379:6379 -v ~/data/redis:
 docker container run --name redis-commander --restart always -p 8063:8081 --env REDIS_HOSTS=10.105.201.248 -d rediscommander/redis-commander
 ```
 
+## Create mongo container and web manage tools
+
+```shell
+docker container run --name mongo --restart always -p 27017:27017 -v ~/data/mongo:/data/db -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=zhongwei -d mongo
+docker container run --name mongo-express --restart always -p 8081:8081 -e ME_CONFIG_MONGODB_SERVER=10.105.201.248 -e ME_CONFIG_MONGODB_ADMINUSERNAME=admin -e ME_CONFIG_MONGODB_ADMINPASSWORD=zhongwei -d mongo-express
+```
+
+## Generate code framework
+
+```shell
+cobra add redis
+cobra add mongo
+cobra add rabbit
+cobra add kafka
+cobra add websocket
+cobra add graphql
+cobra add grpc
+cobra add oauth
+cobra add elastic
+cobra add consul
+```
+
 ## Grpc
 
 ```shell

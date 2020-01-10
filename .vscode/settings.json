@@ -1,7 +1,9 @@
 {
     "cSpell.words": [
+        "bson",
         "gorm",
         "grpc",
+        "mongodb",
         "phpmyadmin",
         "protobuf",
         "protoc",
