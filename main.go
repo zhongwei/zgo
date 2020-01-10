@@ -7,7 +7,10 @@ import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 
+	"zgo/api"
 	"zgo/model"
+	"zgo/repo"
+	"zgo/service"
 )
 
 func initDB() *gorm.DB {
@@ -19,6 +22,13 @@ func initDB() *gorm.DB {
 	db.AutoMigrate(&model.User{})
 
 	return db
+}
+
+func InitUserAPI(db *gorm.DB) api.UserAPI {
+	userRepo := repo.CreateUserRepo(db)
+	userService := service.CreateUserService(userRepo)
+	userAPI := api.CreateUserAPI(userService)
+	return userAPI
 }
 
 func main() {

@@ -38,3 +38,21 @@ curl -X PUT -i http://localhost:8080/users/1 --data ' {"name": "zhang", "age": "
 # delete user
 curl -X DELETE -i http://localhost:8080/users/1
 ```
+
+## Create redis container and web manage tools
+
+```shell
+docker container run --name redis --restart always -p 6379:6379 -v ~/data/redis:/data -d redis:alpine
+docker container run --name redis-commander --restart always -p 8063:8081 --env REDIS_HOSTS=10.105.201.248 -d rediscommander/redis-commander
+```
+
+## Grpc
+
+```shell
+go get -u google.golang.org/grpc
+go get -u github.com/golang/protobuf/protoc-gen-go
+wget https://github.com/protocolbuffers/protobuf/releases/download/v3.11.2/protoc-3.11.2-linux-x86_64.zip
+unzip protoc-3.11.2-linux-x86_64.zip
+cp protoc ~/go/bin
+protoc --go_out=plugins=grpc:./ ./helloworld.proto
+```

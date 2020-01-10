@@ -1,7 +1,11 @@
 {
     "cSpell.words": [
         "gorm",
+        "grpc",
         "phpmyadmin",
+        "protobuf",
+        "protoc",
+        "rediscommander",
         "zhang",
         "zhongwei"
     ]
