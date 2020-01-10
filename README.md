@@ -69,6 +69,12 @@ docker container run --name mongo-express --restart always -p 8081:8081 -e ME_CO
 docker container run --name rabbitmq --restart always --hostname rabbitmq -p 15672:15672 -p 5672:5672 -e RABBITMQ_DEFAULT_USER=admin -e RABBITMQ_DEFAULT_PASS=zhongwei -d rabbitmq:management-alpine
 ```
 
+## Create ElasticSearch container
+
+```shell
+docker container run -d --name elasticsearch -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" elasticsearch
+```
+
 ## Generate code framework
 
 ```shell
