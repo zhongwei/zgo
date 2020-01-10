@@ -15,10 +15,16 @@ docker container run --name mysql  --restart always -p 3306:3306 -v ~/data/mysql
 docker container run --name phpmyadmin --restart always -p 8033:80 -e PMA_ARBITRARY=1 -d phpmyadmin/phpmyadmin
 ```
 
-## Run zgo
+## Run zgo without config file
 
 ```shell
-./zgo http -p 9090 -d "zhongwei:zhongwei@/demo?charset=utf8&parseTime=True&loc=Local"
+go run main.go http -p :9090 -d "zhongwei:zhongwei@/demo?charset=utf8&parseTime=True&loc=Local"
+```
+
+## Run zgo with config file
+
+```shell
+go run main.go --config .zgo.yaml http
 ```
 
 ## Test zgo

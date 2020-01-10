@@ -12,13 +12,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var (
-	port   string
-	db_url string
-)
-
 func initDB() *gorm.DB {
-	db, err := gorm.Open("mysql", db_url)
+	db, err := gorm.Open("mysql", dbURL)
 	if err != nil {
 		panic(err)
 	}
@@ -61,7 +56,7 @@ to quickly create a Cobra application.`,
 		r.PUT("/users/:id", userAPI.Update)
 		r.DELETE("/users/:id", userAPI.Delete)
 
-		err := r.Run(":" + port)
+		err := r.Run(port)
 		if err != nil {
 			panic(err)
 		}
@@ -71,5 +66,5 @@ to quickly create a Cobra application.`,
 func init() {
 	rootCmd.AddCommand(httpCmd)
 	httpCmd.Flags().StringVarP(&port, "port", "p", "", "port of the http server.")
-	httpCmd.Flags().StringVarP(&db_url, "database", "d", "", "URL of SQL Server.")
+	httpCmd.Flags().StringVarP(&dbURL, "database", "d", "", "URL of SQL Server.")
 }
