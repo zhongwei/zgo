@@ -7,9 +7,9 @@ require (
 	github.com/elastic/go-elasticsearch/v7 v7.5.0
 	github.com/gin-gonic/gin v1.5.0
 	github.com/go-redis/redis v6.15.6+incompatible
-	github.com/golang/snappy v0.0.1 // indirect
 	github.com/jinzhu/gorm v1.9.12
 	github.com/mitchellh/go-homedir v1.1.0
+	github.com/nsqio/go-nsq v1.0.8
 	github.com/spf13/cobra v0.0.5
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/spf13/viper v1.6.1

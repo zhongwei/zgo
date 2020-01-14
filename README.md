@@ -29,6 +29,7 @@ go run main.go --config .zgo.yaml http
 go run main.go --config .zgo.yaml mongo
 go run main.go --config .zgo.yaml rabbit
 go run main.go --config .zgo.yaml redis
+go run main.go --config .zgo.yaml kafka
 ```
 
 ## Test zgo
@@ -75,6 +76,50 @@ docker container run --name rabbitmq --restart always --hostname rabbitmq -p 156
 docker container run -d --name elasticsearch -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" elasticsearch
 ```
 
+## Create Kafka container
+
+```shell
+docker network create k-net --driver bridge
+docker container run --name zookeeper --network k-net -e ALLOW_ANONYMOUS_LOGIN=yes -d bitnami/zookeeper
+docker container run --name kafka --network k-net -e ALLOW_PLAINTEXT_LISTENER=yes -e KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181 -d bitnami/kafka
+docker container run -it --rm --network k-net -e KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181 bitnami/kafka kafka-topics.sh --list  --zookeeper zookeeper:2181
+```
+
+## Create NSQ container
+
+```shell
+docker-compose up -d
+```
+
+### docker-compose.yml
+
+```yaml
+version: '3'
+services:
+  nsqlookupd:
+    image: nsqio/nsq
+    command: /nsqlookupd
+    ports:
+      - "4160:4160"
+      - "4161:4161"
+  nsqd:
+    image: nsqio/nsq
+    command: /nsqd --lookupd-tcp-address=nsqlookupd:4160
+    depends_on:
+      - nsqlookupd
+    ports:
+      - "4150:4150"
+      - "4151:4151"
+  nsqadmin:
+    image: nsqio/nsq
+    command: /nsqadmin --lookupd-http-address=nsqlookupd:4161
+    depends_on:
+      - nsqlookupd  
+    ports:
+      - "4171:4171"
+
+```
+
 ## Generate code framework
 
 ```shell
@@ -88,6 +133,7 @@ cobra add grpc
 cobra add oauth
 cobra add elastic
 cobra add consul
+cobra add nsq
 ```
 
 ## Grpc
