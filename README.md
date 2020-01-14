@@ -128,6 +128,8 @@ cobra add mongo
 cobra add rabbit
 cobra add kafka
 cobra add websocket
+cobra add -p websocketCmd websocket_server
+cobra add -p websocketCmd websocket_client
 cobra add graphql
 cobra add grpc
 cobra add oauth
